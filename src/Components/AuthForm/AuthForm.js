@@ -1,12 +1,15 @@
 import React from 'react'
 
+import { Button } from '../UI/Button/Button'
+
 import './AuthForm.css'
-import { InputText } from '../UI/InputText/InputText'
 
 export const AuthForm = () => {
   return (
     <form className='auth-form'>
-        <InputText/>
+        <input type='text' placeholder='Login' className='input__text'/>
+        <input type='password' placeholder='Password' className='input__text'/>
+        <Button>Vhod</Button>
     </form>
   )
 }
