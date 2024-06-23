@@ -1,0 +1,26 @@
+[
+    {
+      "id": 1,
+      "login": "john_doe",
+      "password": "password123",
+      "username": "John Doe"
+    },
+    {
+      "id": 2,
+      "login": "jane_smith",
+      "password": "securepass456",
+      "username": "Jane Smith"
+    },
+    {
+      "id": 3,
+      "login": "alex_jones",
+      "password": "mypassword789",
+      "username": "Alex Jones"
+    },
+    {
+      "id": 4,
+      "login": "homik",
+      "password": "homik1234",
+      "username": "Ekaterina Homik"
+    }
+]
