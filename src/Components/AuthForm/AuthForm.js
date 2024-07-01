@@ -10,21 +10,20 @@ export const AuthForm = () => {
   const [password, setPassword] = useState('securepass456');
 
   const authorization = () => {
-    let isLoginCorrect = false;
-    let isPasswordCorrect = false;
+    let user;
 
-    usersJSON.forEach(user=> {if (user.login === login) isLoginCorrect=true})
+    usersJSON.forEach(userJSON => { if (userJSON.login === login) user = userJSON })
 
-    if (isLoginCorrect) {
-      usersJSON.forEach(user=> {if (user.password === password) isPasswordCorrect=true});
-      if (isPasswordCorrect) {
-        window.location.href='/main';
-        localStorage.setItem('user', login);
+    if (user) {
+      if (user.password === password) {
+        window.location.href = '/main';
+        localStorage.setItem('user', user.login);
+        localStorage.setItem('username', user.username);
       } else {
-        alert("Неправильный пароль");
+        alert("Неправильный или логин");
       }
     } else {
-      alert("Неправильный логин");
+      alert("Неправильный или логин");
     }
   }
 
