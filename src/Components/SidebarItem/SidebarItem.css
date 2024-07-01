@@ -1,0 +1,17 @@
+.sidebar-item {
+    background-color:rgba(240, 248, 255, 0.80);
+    cursor: pointer;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+.sidebar-item:hover {
+    background-color:rgba(240, 248, 255, 1);
+}
+
+.title {
+    font-weight: 300;
+    font-size: 18px;
+    margin-bottom: 5px;
+}

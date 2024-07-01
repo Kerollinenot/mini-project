@@ -1,21 +1,15 @@
 import React from 'react'
+import { Sidebar } from '../Sidebar/Sidebar'
+import { Workspace } from '../Workspace/Workspace'
 
-import './MainWindow.css';
+import './MainWindow.css'
 
-import { Button } from '../UI/Button/Button';
-import { Navbar } from '../Navbar/Navbar'
 export const MainWindow = () => {
-	const deauthorization = () => {
-		localStorage.removeItem('user');
-		window.location.href = '/';
-	}
-
-
-	return (
-		<div className='main-window'>
-			<Navbar />
-			<Button className={'authBtn'} onClick={deauthorization}>Vihod</Button>
-
-		</div>
-	)
+  return (
+    <div className='main-window'>
+      <Sidebar/>
+      <Workspace/>
+      
+    </div>
+  )
 }

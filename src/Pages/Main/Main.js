@@ -1,13 +1,13 @@
 import React from 'react'
 
 import './Main.css'
-import { MainWindow } from '../../Components/MainWindow/MainWindow'
+import { MainWrapper } from '../../Components/MainWrapper/MainWrapper'
 
 export const Main = () => {
  
   return (
     <div className='main'>
-      <MainWindow/>
+      <MainWrapper/>
     </div>
   )
 }
