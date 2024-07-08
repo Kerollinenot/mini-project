@@ -1,0 +1,56 @@
+.task {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(240, 248, 255, 0.80);
+    cursor: pointer;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    width: 100%;
+
+}
+
+.task:hover {
+    background-color: rgba(240, 248, 255, 1);
+}
+
+.task:active {
+    background-color: rgba(240, 248, 255, 0.80);
+}
+
+.task__title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.task__status {
+    margin-top: 5px;
+    font-size: 20px;    
+    font-weight: bold;
+}
+
+.new {
+    color: rgb(217, 23, 23);
+}
+
+.consideration {
+    color: rgb(134, 5, 136);
+}
+
+.approved {
+    color: rgb(9, 147, 216);
+}
+
+.at_work {
+    color: rgb(201, 156, 9);
+}
+
+.inspection {
+    color: rgb(45, 12, 168);
+
+}
+
+.completed {
+    color: rgb(7, 198, 33);
+}
