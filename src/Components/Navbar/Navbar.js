@@ -7,10 +7,10 @@ export const Navbar = () => {
 		localStorage.removeItem('user');
 		window.location.href = '/';
 	}
-   
+   console.log(JSON.parse(localStorage.getItem('user')))
   return (
     <div className='navbar'>
-      <span className='username'>{localStorage.getItem('username')}</span>
+      <span className='username'>{JSON.parse(localStorage.getItem('user')).username}</span>
 			<Button className={'authBtn'} onClick={deauthorization}>Vihod</Button>
     </div>
   )

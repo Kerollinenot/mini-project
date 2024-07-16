@@ -17,8 +17,7 @@ export const AuthForm = () => {
     if (user) {
       if (user.password === password) {
         window.location.href = '/main';
-        localStorage.setItem('user', user.login);
-        localStorage.setItem('username', user.username);
+        localStorage.setItem('user', JSON.stringify(user))
       } else {
         alert("Неправильный или логин");
       }
