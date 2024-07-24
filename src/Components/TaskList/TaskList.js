@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { Task } from '../Task/Task';
 import { Sort } from '../UI/Sort/Sort';
@@ -15,17 +15,34 @@ export const TaskList = () => {
   const groupTitle = useSelector((state) => state.CurrentGroup.title);
   const groupDescription = useSelector((state) => state.CurrentGroup.description);
   
-  let tasks;
+  const [tasksDB, setTasksDB] = useState(tasksJSON);
+  const source = useSelector((state) => state.Source.source);
+  
+  useEffect(() => {
+    const URL = 'http://localhost:5000/tasks/';
+
+    fetch(URL)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        if (source === "db") {
+          setTasksDB(data)
+          console.log("Загружаю данные из БД:")
+          console.log(data)
+        }
+      });
+  }, [])
 
   const sortTasks = () => {
     if (direction === 'asc') {
-      tasksJSON.sort((a, b) => {
+      tasksDB.sort((a, b) => {
         if (a.title[0] > b.title[0]) return 1;
         if (a.title[0] < b.title[0]) return -1;
         return 0;
       })
     } else {
-      tasksJSON.sort((a, b) => {
+      tasksDB.sort((a, b) => {
         if (a.title[0] > b.title[0]) return -1;
         if (a.title[0] < b.title[0]) return 1;
         return 0;
@@ -41,7 +58,7 @@ export const TaskList = () => {
   
   sortTasks();
   
-  tasks = tasksJSON.map((task) => {
+  let tasks = tasksDB.map((task) => {
     if (task.group_id === groupID) {
       return <Task key={task.id} title={task.title} description={task.description} status={task.status} />
     }
