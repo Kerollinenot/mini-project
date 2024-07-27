@@ -1,15 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
-import groups from '../../DB/groups.json'
 
-const initialGroup = groups[0];
-
+//const initialGroup = 
 
 export const CurrentGroup_Slice = createSlice({
   name: 'CurrentGroup',
   initialState: {
-    title: initialGroup.title,
-    description: initialGroup.description,
-    id: initialGroup.id,
+    title: '',
+    description: '',
+    id: '',
   },
   reducers: {
     changeID: (state, action) => {

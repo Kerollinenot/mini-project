@@ -1,10 +1,9 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { Task } from '../Task/Task';
 import { Sort } from '../UI/Sort/Sort';
 
 import './TaskList.css';
-import tasksJSON from '../../DB/tasks.json';
 import { changeDirection } from '../../features/TaskSortDirection/TaskSortDirection_Slice';
 
 export const TaskList = () => {
@@ -14,10 +13,9 @@ export const TaskList = () => {
   const groupID = useSelector((state) => state.CurrentGroup.id);
   const groupTitle = useSelector((state) => state.CurrentGroup.title);
   const groupDescription = useSelector((state) => state.CurrentGroup.description);
-  
-  const [tasksDB, setTasksDB] = useState(tasksJSON);
-  const source = useSelector((state) => state.Source.source);
-  
+
+  const [tasksDB, setTasksDB] = useState([]);
+
   useEffect(() => {
     const URL = 'http://localhost:5000/tasks/';
 
@@ -26,11 +24,7 @@ export const TaskList = () => {
         return response.json();
       })
       .then(data => {
-        if (source === "db") {
-          setTasksDB(data)
-          console.log("Загружаю данные из БД:")
-          console.log(data)
-        }
+        setTasksDB(data)
       });
   }, [])
 
@@ -54,10 +48,9 @@ export const TaskList = () => {
     dispatch(changeDirection());
   }
 
-  useLayoutEffect(sortTasks)
-  
+
   sortTasks();
-  
+
   let tasks = tasksDB.map((task) => {
     if (task.group_id === groupID) {
       return <Task key={task.id} title={task.title} description={task.description} status={task.status} />
