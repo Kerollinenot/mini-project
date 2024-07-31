@@ -7,8 +7,14 @@ export const Sidebar = () => {
 
   useEffect(() => {
     const URL = 'http://localhost:5000/groups/';
-
-    fetch(URL)
+    
+    fetch(URL, {
+      method: "get",
+      headers: {
+        'Access-Token': JSON.parse(localStorage.getItem('user')).token,
+        'User-Id': JSON.parse(localStorage.getItem('user')).id
+      }
+    })
       .then(response => {
         return response.json();
       })

@@ -10,7 +10,7 @@ export const AuthForm = () => {
   const [isErrorActive, setErrorActive] = useState(false);
 
   const fetchData = () => {
-    const URL = 'http://localhost:5000/users/';
+    const URL = 'http://localhost:5000/users/authorization';
 
     fetch(URL, {
       method: "post",
@@ -25,6 +25,9 @@ export const AuthForm = () => {
       })
     })
       .then(response => {
+        if (response.status !== 202) {
+          throw(response)
+        }
         return response.json();
       })
       .then(data => {

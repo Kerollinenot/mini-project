@@ -11,7 +11,7 @@ export const RegistrationForm = () => {
 
 
   const fetchData = () => {
-    const URL = 'http://localhost:5000/registration/';
+    const URL = 'http://localhost:5000/users/registration/';
 
     fetch(URL, {
       method: "post",
