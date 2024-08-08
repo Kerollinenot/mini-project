@@ -15,15 +15,24 @@ export const TaskList = () => {
   const groupDescription = useSelector((state) => state.CurrentGroup.description);
 
   const [tasksDB, setTasksDB] = useState([]);
+  const URL = 'http://localhost:5000/tasks/';
+
+  const handleSortClick = (event) => {
+    if (event.target.className === 'sort-btn') dispatch(changeDirection());
+  };
 
   useEffect(() => {
-    const URL = 'http://localhost:5000/tasks/';
+    fetchData();
 
+    document.addEventListener('click', handleSortClick);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const fetchData = () => {
     fetch(URL, {
       method: "get",
       headers: {
-        'Access-Token': JSON.parse(localStorage.getItem('user')).token,
-        'User-Id': JSON.parse(localStorage.getItem('user')).id
+        'Authorization': JSON.parse(localStorage.getItem('user')).token,
       }
     })
       .then(response => {
@@ -32,7 +41,7 @@ export const TaskList = () => {
       .then(data => {
         setTasksDB(data)
       });
-  }, [])
+  }
 
   const sortTasks = () => {
     if (direction === 'asc') {
@@ -50,11 +59,6 @@ export const TaskList = () => {
     }
   }
 
-  const handleSortClick = () => {
-    dispatch(changeDirection());
-  }
-
-
   sortTasks();
 
   let tasks = tasksDB.map((task) => {
@@ -69,7 +73,7 @@ export const TaskList = () => {
     <div className='task-list'>
       <p className='task__group-title'>{groupTitle}</p>
       <p className='task__group-description'>{groupDescription}</p>
-      <Sort name={sortName} direction={direction} onClick={handleSortClick} />
+      <Sort name={sortName} direction={direction} />
       {tasks}
     </div>
   )

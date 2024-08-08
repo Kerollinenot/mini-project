@@ -1,62 +1,105 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { Button } from '../UI/Button/Button';
 
 import './AuthForm.css'
+import { postHeaders } from '../../app/consts';
 
 export const AuthForm = () => {
   const [login, setlogin] = useState('');
   const [password, setPassword] = useState('');
   const [isErrorActive, setErrorActive] = useState(false);
 
-  const fetchData = () => {
-    const URL = 'http://localhost:5000/users/authorization';
-
-    fetch(URL, {
-      method: "post",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-
-      body: JSON.stringify({
-        login: login,
-        password: password
-      })
-    })
-      .then(response => {
-        if (response.status !== 202) {
-          throw(response)
-        }
-        return response.json();
-      })
-      .then(data => {
-        authorization(data)
-      }).catch(() => {
-        setErrorActive(true)
-      });
-  }
+  const loginRef = useRef(login);
+  const passwordRef = useRef(password)
 
   useEffect(() => {
-    document.addEventListener('keydown', function (event) {
+    loginRef.current = login;
+  }, [login]);
+
+  useEffect(() => {
+    passwordRef.current = password;
+  }, [password]);
+
+  const fetchData = async () => {
+    const URL = 'http://localhost:5000/users/authorization';
+
+    try {
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: postHeaders,
+        body: JSON.stringify({ 
+          login: loginRef.current, 
+          password: passwordRef.current
+        }),
+      });
+
+      if (response.status !== 202) {
+        throw new Error('Авторизация не удалась');
+      }
+
+      const data = await response.json();
+      authorization(data);
+    } catch (error) {
+      setErrorActive(true);
+      console.error('Ошибка при запросе:', error);
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
       if (event.code === 'Enter') fetchData();
-    });
+    };
+
+    const handleClick = (event) => {
+      if (event.target.className === 'authBtn') fetchData();
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('click', handleClick);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('click', handleClick);
+    };
 
     // eslint-disable-next-line
   }, [])
 
   const authorization = (data) => {
-    window.location.href = '/main';
     localStorage.setItem('user', JSON.stringify(data))
+    window.location.href = '/main';
   }
 
   return (
     <form className='auth-form'>
-      <span id='error-msg' className={isErrorActive ? 'error-msg' : 'error-msg hidden'}>Неверный логин или пароль</span>
-      <input id='input__login' value={login} onChange={e => setlogin(e.target.value)} type='text' placeholder='Login' className='input__text' />
-      <input id='input__password' value={password} onChange={e => setPassword(e.target.value)} type='password' placeholder='Password' className='input__text' />
-      <Button className={'authBtn'} onClick={fetchData}>Авторизоваться</Button>
-      <span id='redirect-to-registration' className='redirect-to-registration' onClick={() => window.location.href = '/registration'}>Регистрация</span>
+      <span id='error-msg' className={`error-msg ${isErrorActive ? '' : 'hidden'}`}>
+        Неверный логин или пароль
+      </span>
+      <input
+        id='input__login'
+        value={login}
+        onChange={e => setlogin(e.target.value)}
+        type='text'
+        placeholder='Login'
+        className='input__text'
+      />
+      <input
+        id='input__password'
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        type='password'
+        placeholder='Password'
+        className='input__text'
+      />
+      <Button className={'authBtn'}>Авторизоваться</Button>
+      <span
+        id='redirect-to-registration'
+        className='redirect-to-registration'
+        onClick={() => window.location.href = '/registration'}
+      >
+        Регистрация
+      </span>
     </form>
   )
 }

@@ -10,30 +10,25 @@ export const Task = (props) => {
 
   useLayoutEffect(() => {
     let statusClass;
-    switch (props.status) {
-      case 1:
-        setStatusName('Новая');
-        statusClass = 'new';
+    setStatusName(props.status);
 
+    switch (props.status) {
+      case 'Новая':
+        statusClass = 'new';
         break;
-      case 2:
-        setStatusName('На рассмотрении');
+      case 'На рассмотрении':
         statusClass = 'consideration';
         break;
-      case 3:
-        setStatusName('Утверждена');
+      case 'Утверждена':
         statusClass = 'approved';
         break;
-      case 4:
-        setStatusName('В работе');
+      case 'В работе':
         statusClass = 'at_work';
         break;
-      case 5:
-        setStatusName('На проверке');
+      case 'На проверке':
         statusClass = 'inspection';
         break;
-      case 6:
-        setStatusName('Выполнена');
+      case 'Выполнена':
         statusClass = 'completed';
         break;
       default:
