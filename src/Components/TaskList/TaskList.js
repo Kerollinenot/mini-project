@@ -74,8 +74,8 @@ export const TaskList = () => {
     <div className='task-list'>
       <p className='task__group-title'>{groupTitle}</p>
       <p className='task__group-description'>{groupDescription}</p>
-      <Sort style={`${tasks.length === 0 ? 'hidden' : ''}`} name={sortName} direction={direction} />
-      <span className={`info-label ${tasks.length === 0 ? '' : 'hidden'}`}> Выберите группу из списка слева </span>
+      <Sort style={`${groupID ? '' : 'hidden'}`} name={sortName} direction={direction} />
+      <span className={`info-label ${groupID ? 'hidden' : ''}`}> Выберите группу из списка слева </span>
       {tasks}
     </div>
   )
