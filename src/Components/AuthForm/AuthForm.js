@@ -34,7 +34,7 @@ export const AuthForm = () => {
         }),
       });
 
-      if (response.status !== 202) {
+      if (response.status !== 200) {
         throw new Error('Авторизация не удалась');
       }
 

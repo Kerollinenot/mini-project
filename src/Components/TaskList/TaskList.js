@@ -15,18 +15,11 @@ export const TaskList = () => {
   const groupDescription = useSelector((state) => state.CurrentGroup.description);
 
   const [tasksDB, setTasksDB] = useState([]);
-  const URL = 'http://localhost:5000/tasks/';
+  const URL = `http://localhost:5000/tasks/${groupID}`;
 
   const handleSortClick = (event) => {
-    if (event.target.className === 'sort-btn') dispatch(changeDirection());
+    if (event.target.id === 'sort-btn') dispatch(changeDirection());
   };
-
-  useEffect(() => {
-    fetchData();
-
-    document.addEventListener('click', handleSortClick);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const fetchData = () => {
     fetch(URL, {
@@ -43,6 +36,15 @@ export const TaskList = () => {
       });
   }
 
+  useEffect(() => {
+    document.addEventListener('click', handleSortClick);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [groupID])
+  
   const sortTasks = () => {
     if (direction === 'asc') {
       tasksDB.sort((a, b) => {
@@ -68,12 +70,12 @@ export const TaskList = () => {
     return [];
   })
 
-
   return (
     <div className='task-list'>
       <p className='task__group-title'>{groupTitle}</p>
       <p className='task__group-description'>{groupDescription}</p>
-      <Sort name={sortName} direction={direction} />
+      <Sort style={`${tasks.length === 0 ? 'hidden' : ''}`} name={sortName} direction={direction} />
+      <span className={`info-label ${tasks.length === 0 ? '' : 'hidden'}`}> Выберите группу из списка слева </span>
       {tasks}
     </div>
   )

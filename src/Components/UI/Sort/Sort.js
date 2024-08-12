@@ -2,8 +2,8 @@ import React from 'react'
 
 import './Sort.css'
 
-export const Sort = ({name, onClick}) => {
+export const Sort = ({name, style}) => {
   return (
-    <button className='sort-btn' onClick={onClick}>{name}</button>
+    <button id='sort-btn' className={`sort-btn ${style}`}>{name}</button>
   )
 }

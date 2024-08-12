@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react';
 
 export const Sidebar = () => {
   const [groupsDB, setGroupsDB] = useState([]);
+  const URL = 'http://localhost:5000/groups/';
 
   useEffect(() => {
-    const URL = 'http://localhost:5000/groups/';
+    fetchData()
+  }, [])
 
+  const fetchData = () => { 
     fetch(URL, {
       method: "get",
       headers: {
@@ -18,9 +21,9 @@ export const Sidebar = () => {
         return response.json();
       })
       .then(data => {
-        setGroupsDB(data)
+        setGroupsDB(data);
       });
-  }, [])
+  }
 
   let groups = groupsDB.map((group) => {
     return <SidebarItem

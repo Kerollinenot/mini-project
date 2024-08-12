@@ -12,8 +12,6 @@ export default function SidebarItem({group}) {
     dispatch(changeDescription(group));
   }
 
-  //Есть ли тут смысл менять на addEventListener? Тут же в одном компоненте
-
   return (
     <div className='sidebar-item' onClick={handleClick}> 
       <p className='sidebar-title'>{group.title}</p>
