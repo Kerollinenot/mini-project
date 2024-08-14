@@ -1,19 +1,13 @@
 import React from 'react'
 
-import { Button } from '../../Components/UI/Button/Button'
-
 import './Main.css'
+import { MainWrapper } from '../../Components/MainWrapper/MainWrapper'
 
 export const Main = () => {
-  const deauthorization = () => {
-    localStorage.removeItem('user');
-    window.location.href='/';
-  }
-
+ 
   return (
     <div className='main'>
-
-      <Button className={'authBtn'} onClick={deauthorization}>Vihod</Button>
+      <MainWrapper/>
     </div>
   )
 }
