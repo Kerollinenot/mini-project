@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from '../UI/Button/Button';
 
 import './RegistrationForm.css'
-import { postHeaders } from '../../app/consts';
+import { fetch_post } from '../../fetch';
 
 export const RegistrationForm = () => {
   const [login, setlogin] = useState('');
@@ -26,26 +26,28 @@ export const RegistrationForm = () => {
     usernameRef.current = username;
   }, [username]);
 
+  const fetchData = async () => {
+    const URL = 'users/registration';
 
-  const fetchData = () => {
-    const URL = 'http://localhost:5000/users/registration/';
-
-    fetch(URL, {
-      method: "POST",
-      headers: postHeaders,
-    
-      body: JSON.stringify({
-        login: loginRef.current,
-        username: usernameRef.current,
-        password: passwordRef.current
-      })
+    const body = JSON.stringify({
+      login: loginRef.current,
+      username: usernameRef.current,
+      password: passwordRef.current
     })
-    .then( (response) => { 
-      return response.json()
-    }).then((data) => {
-      authorization(data)
-    });
-  }
+
+    await fetch_post(URL, body)
+      .then((response) => {
+        if (response.status !== 200) {
+          throw new Error('Регистрация не удалась');
+        }
+
+        return response.json();
+      })
+      .then(data => authorization(data))
+      .catch(error => {
+        console.error('Ошибка при запросе:', error);
+      })
+  };
 
   useEffect(() => {
     const handleKeyDown = (event) => {

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
+
+import { fetch_get } from '../../fetch'
 import { Task } from '../Task/Task';
 import { Sort } from '../UI/Sort/Sort';
 
@@ -15,26 +17,18 @@ export const TaskList = () => {
   const groupDescription = useSelector((state) => state.CurrentGroup.description);
 
   const [tasksDB, setTasksDB] = useState([]);
-  const URL = `http://localhost:5000/tasks/${groupID}`;
 
   const handleSortClick = (event) => {
     if (event.target.id === 'sort-btn') dispatch(changeDirection());
   };
 
-  const fetchData = () => {
-    fetch(URL, {
-      method: "get",
-      headers: {
-        'Authorization': JSON.parse(localStorage.getItem('user')).token,
-      }
+  const getData = async() => {
+    await fetch_get(`tasks/${groupID}`)
+    .then(data => {
+      setTasksDB(data)
     })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        setTasksDB(data)
-      });
-  }
+    .catch(err=> console.log(err));
+  }    
 
   useEffect(() => {
     document.addEventListener('click', handleSortClick);
@@ -42,7 +36,7 @@ export const TaskList = () => {
   }, [])
 
   useEffect(() => {
-    fetchData()
+    getData();
   }, [groupID])
   
   const sortTasks = () => {

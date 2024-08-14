@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from '../UI/Button/Button';
 
 import './AuthForm.css'
-import { postHeaders } from '../../app/consts';
+import { fetch_post } from '../../fetch';
 
 export const AuthForm = () => {
   const [login, setlogin] = useState('');
@@ -22,28 +22,26 @@ export const AuthForm = () => {
   }, [password]);
 
   const fetchData = async () => {
-    const URL = 'http://localhost:5000/users/authorization';
+    const URL = 'users/authorization';
 
-    try {
-      const response = await fetch(URL, {
-        method: "POST",
-        headers: postHeaders,
-        body: JSON.stringify({ 
-          login: loginRef.current, 
-          password: passwordRef.current
-        }),
-      });
+    const body = JSON.stringify({ 
+      login: loginRef.current, 
+      password: passwordRef.current
+    })
 
+    await fetch_post(URL, body)
+    .then((response) => {
       if (response.status !== 200) {
         throw new Error('Авторизация не удалась');
       }
-
-      const data = await response.json();
-      authorization(data);
-    } catch (error) {
+      
+      return response.json();
+    })
+    .then(data => authorization(data))
+    .catch (error => {
       setErrorActive(true);
       console.error('Ошибка при запросе:', error);
-    }
+    }) 
   };
 
   useEffect(() => {
